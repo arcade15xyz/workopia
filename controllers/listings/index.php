@@ -1,3 +1,4 @@
 <?php
 
 loadView('listings/index');
+?>
