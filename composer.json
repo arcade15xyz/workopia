@@ -1,0 +1,16 @@
+{
+    "name": "arcade15xyz/workopia",
+    "description": "Job listing application",
+    "authors": [
+        {
+            "name": "Arcade",
+            "email":"arcade15xyz@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Framework\\": "Framework/",
+            "App\\": "App/"
+        }
+    }
+}
