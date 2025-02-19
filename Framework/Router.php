@@ -74,7 +74,8 @@ class Router
      * @param int $httpCode
      * @return void
      */
-    public function error($httpCode = 404){
+    public function error($httpCode = 404)
+    {
         http_response_code($httpCode);
         loadView("error/{$httpCode}");
         exit;
@@ -92,11 +93,11 @@ class Router
     {
         foreach ($this->routes as $route) {
             if ($route['uri'] === $uri && $route['method'] === $method) {
-                require basePath($route['controller']);
+                require basePath('App/' . $route['controller']);
                 return;
             }
         }
-        
+
         $this->error();
     }
 }
