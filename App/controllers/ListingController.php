@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use Framework\Database;
+use Framework\Validation;
 
 use App\Controllers\ErrorController;
 
@@ -23,6 +24,8 @@ class ListingController
      */
     public function index()
     {
+       
+        
         $listings = $this->db->query('SELECT * FROM listings')->fetchAll();
         loadView('listings/index', [
             'listings' => $listings
@@ -55,10 +58,10 @@ class ListingController
         $listing = $this->db->query('SELECT * FROM listings WHERE id = :id', $params)->fetch();
 
         //Check if listing exist
-        if(!$listing){
+        if (!$listing) {
             ErrorController::notFound("Listing not found");
             return;
-       }
+        }
 
         loadView('listings/show', [
             'listing' => $listing
