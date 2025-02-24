@@ -84,6 +84,29 @@ function inspectAndDie($value)
  * @param string $salary
  * @return string Formatted Salary
  */
-function formatSalary($salary){
-return '$'.number_format(floatval($salary));
+function formatSalary($salary)
+{
+    return '$' . number_format(floatval($salary));
+}
+
+/**
+ * Sanitize data
+ * 
+ * @param string $dirty
+ * @return string
+ */
+function sanitize($dirty)
+{
+    return filter_var(trim($dirty), FILTER_SANITIZE_SPECIAL_CHARS);
+}
+
+/**
+ * Redirect to a given url
+ * 
+ * @param string $url
+ * @return void
+ */
+function redirect ($url){
+    header("Location: {$url}");
+    exit;
 }
