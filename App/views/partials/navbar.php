@@ -13,7 +13,7 @@ use Framework\Session;
 
       <?php if (Session::has('user')): ?>
         <div class="flex justify-between items-center gap-4">
-          <div class="flex jsutify-between items-center gap-4">
+          <div class="flex jsutify-between items-center gap-4 text-blue-500">
             Welcome <?= Session::get('user')['name'] ?>
           </div>
           <form method="POST" action="/auth/logout">
