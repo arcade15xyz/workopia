@@ -87,7 +87,7 @@ class UserController
     ];
 
     $user = $this->db->query('SELECT * FROM users WHERE email = :email', $params)->fetch();
-    
+
 
     if ($user) {
       $errors['email'] = 'That email already exists';
@@ -105,21 +105,36 @@ class UserController
       'state' => $state,
       'password' => password_hash($password, PASSWORD_DEFAULT)
     ];
-    $this->db->query('INSERT INTO users (name, email, city, state, password) VALUES (:name, :email, :city, :state, :password)',$params );
+    $this->db->query('INSERT INTO users (name, email, city, state, password) VALUES (:name, :email, :city, :state, :password)', $params);
 
     // Get new user ID
     $userId = $this->db->conn->lastInsertId();
 
-    Session::set('user',[
-      'id'=>$userId,
-      'name' =>$name,
-      'email' =>$email,
-      'city' =>$city,
-      'state' =>$state,
+    Session::set('user', [
+      'id' => $userId,
+      'name' => $name,
+      'email' => $email,
+      'city' => $city,
+      'state' => $state,
     ]);
 
     inspectAndDie(Session::get('user'));
 
+    redirect('/');
+  }
+
+  /**
+   * Logout a user and kill session
+   * 
+   * @return void
+   */
+  public function logout()
+  {
+    Session::clearAll();
+
+    $params = session_get_cookie_params();
+
+    setcookie('PHPSESSID','',time() - 86400,$params['path'],$params['domain']);
     redirect('/');
   }
 }
