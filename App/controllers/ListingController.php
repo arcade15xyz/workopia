@@ -126,6 +126,8 @@ class ListingController
 
             $this->db->query($query, $newListingData);
 
+            Session::setFlashMessage('success_message', 'Listing created successfully');
+
             redirect('/listings');
         }
     }
@@ -154,14 +156,15 @@ class ListingController
 
         // Authorization
         if (!Authorization::isOwner($listing->user_id)) {
-            $_SESSION['error_message'] = 'You are not authorized to delete this listing';
+            Session::setFlashMessage('error_message', 'You are not authorized to delete this listing');
             return redirect('/listings/' . $listing->id);
         }
 
         $this->db->query('DELETE FROM listings WHERE id = :id', $params);
 
         //Set Flash message
-        $_SESSION['success_message'] = 'Listing Deleted Successfully';
+
+        Session::setFlashMessage('success_message', 'Listing Deleted Successfully');
 
         redirect('/listings');
     }
@@ -173,6 +176,7 @@ class ListingController
      */
     public function edit($params)
     {
+
         $id = $params['id'] ?? '';
 
         $params = [
@@ -185,6 +189,11 @@ class ListingController
         if (!$listing) {
             ErrorController::notFound("Listing not found");
             return;
+        }
+
+        if (!Authorization::isOwner($listing->user_id)) {
+            Session::setFlashMessage('error_message', 'You are not authorized to update this listing');
+            return redirect('/listings/' . $listing->id);
         }
 
 
@@ -212,6 +221,11 @@ class ListingController
         if (!$listing) {
             ErrorController::notFound("Listing not found");
             return;
+        }
+
+        if (!Authorization::isOwner($listing->user_id)) {
+            Session::setFlashMessage('error_message', 'You are not authorized to update this listing');
+            return redirect('/listings/' . $listing->id);
         }
 
         $allowedFields = ['title', 'description', 'salary', 'tags', 'company', 'address', 'city', 'state', 'phone', 'email', 'requirements', 'benifits'];
@@ -249,7 +263,7 @@ class ListingController
 
             $updateValues['id'] = $id;
             $this->db->query($updateQuery, $updateValues);
-            $_SESSION['success_message'] = 'Listing Updated';
+            Session::setFlashMessage('success_message', 'Listing edited Successfully');
             redirect('/listings/' . $id);
         }
     }
